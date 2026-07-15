@@ -1,0 +1,39 @@
+# gcWeaselSettings — Weasel（小狼毫/RIME）外观配置
+# 安装：拷到 %APPDATA%\Rime\，删 build 后重新部署（见 README）。
+# 注意：Weasel 部署会把本文件“标准化”（去注释、键字母序）；此仓库版是带注释的源，以仓库为准。
+
+customization:
+  distribution_code_name: Weasel
+  distribution_version: 0.17.4
+  generator: "Weasel::UIStyleSettings"
+  rime_version: 1.13.1
+
+patch:
+  # ── 配色：Catppuccin Mocha（颜色为 BGR 字节序 0xBBGGRR，见 README 坑 1）──
+  "preset_color_schemes/mocha":
+    name: "摩卡／Catppuccin Mocha"
+    author: GenCurtis
+    back_color: 0x2E1E1E                          # Base      #1E1E2E  候选窗背景
+    border_color: 0x5A4745                        # Surface1  #45475A  边框
+    shadow_color: 0x00000000                      #                     无阴影
+    text_color: 0xF4D6CD                          # Text      #CDD6F4  编码文字
+    hilited_text_color: 0xFAB489                  # Blue      #89B4FA  编码高亮文字
+    hilited_back_color: 0x443231                  # Surface0  #313244  编码高亮底
+    candidate_text_color: 0xDEC2BA                # Subtext1  #BAC2DE  候选文字
+    candidate_back_color: 0x2E1E1E                # Base      #1E1E2E  候选底
+    hilited_candidate_text_color: 0x2E1E1E        # Base      #1E1E2E  选中候选文字
+    hilited_candidate_back_color: 0xF7A6CB        # Mauve     #CBA6F7  选中候选底（accent）
+    comment_text_color: 0x9C847F                  # Overlay1  #7F849C  注释文字
+    hilited_comment_text_color: 0xB29993          # Overlay2  #9399B2  选中行注释
+
+  "style/color_scheme": mocha
+
+  # ── 字体：Source Han Sans VF（思源黑体 Default 区 ≈ 日式字形）──
+  "style/font_face": "Source Han Sans VF"
+  "style/label_font_face": "Source Han Sans VF"
+  "style/comment_font_face": "Source Han Sans VF"
+
+  # ── 字号 ──
+  "style/font_point": 12            # 候选词 + 编码行（拼音）
+  "style/label_font_point": 11      # 序号 1. 2. …
+  "style/comment_font_point": 11    # 注释（反查 / 形码方案才显示，平时拼音无注释）

@@ -1,0 +1,16 @@
+# gcWeaselSettings — Weasel 全局行为配置
+# 安装：拷到 %APPDATA%\Rime\，删 build 后重新部署（见 README）。
+
+customization:
+  distribution_code_name: Weasel
+  distribution_version: 0.17.4
+  generator: "Rime::SwitcherSettings"
+  rime_version: 1.13.1
+
+patch:
+  # 输入方案（朙月拼音，繁体输出）
+  schema_list:
+    - {schema: luna_pinyin}
+
+  # 每页候选数：9（用 1–9 选择，避免 0 选第 10 个的 bug）
+  "menu/page_size": 9
