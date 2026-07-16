@@ -9,7 +9,7 @@ customization:
   rime_version: 1.13.1
 
 patch:
-  # ── 配色：Catppuccin Mocha（颜色为 BGR 字节序 0xBBGGRR，见 README 坑 1）──
+  # ── 配色：Catppuccin Mocha（暗色；颜色为 BGR 字节序 0xBBGGRR，见 README 坑 1）──
   "preset_color_schemes/mocha":
     name: "摩卡／Catppuccin Mocha"
     author: GenCurtis
@@ -26,7 +26,34 @@ patch:
     comment_text_color: 0x9C847F                  # Overlay1  #7F849C  注释文字
     hilited_comment_text_color: 0xB29993          # Overlay2  #9399B2  选中行注释
 
-  "style/color_scheme": mocha
+  # ── 配色：Catppuccin Latte（亮色；BGR 字节序，R/B 对调）──
+  "preset_color_schemes/latte":
+    name: "拿铁／Catppuccin Latte"
+    author: GenCurtis
+    back_color: 0xF5F1EF                          # Base      #EFF1F5  候选窗背景
+    border_color: 0xCCC0BC                        # Surface1  #BCC0CC  边框
+    shadow_color: 0x00000000                      #                     无阴影
+    text_color: 0x694F4C                          # Text      #4C4F69  编码文字
+    hilited_text_color: 0xF5661E                  # Blue      #1E66F5  编码高亮文字
+    hilited_back_color: 0xDAD0CC                  # Surface0  #CCD0DA  编码高亮底
+    candidate_text_color: 0x775F5C                # Subtext1  #5C5F77  候选文字
+    candidate_back_color: 0xF5F1EF                # Base      #EFF1F5  候选底
+    hilited_candidate_text_color: 0xF5F1EF        # Base      #EFF1F5  选中候选文字（底为深 Mauve，字反色用亮 Base）
+    hilited_candidate_back_color: 0xEF3988        # Mauve     #8839EF  选中候选底（accent）
+    comment_text_color: 0xA18F8C                  # Overlay1  #8C8FA1  注释文字
+    hilited_comment_text_color: 0x937F7C          # Overlay2  #7C7F93  选中行注释
+
+  # ── 配色切换：系统亮色模式→Latte、暗色模式→Mocha ──
+  "style/color_scheme": latte
+  "style/color_scheme_dark": mocha
+
+  # ── 排版：横排候选（false=竖排）──
+  "style/horizontal": true
+
+  # ── 布局 ──
+  "style/layout/candidate_spacing": 16      # 候选词间距（默认 5，横排偏挤调大）
+  "style/layout/hilite_spacing": 2          # 序号与候选词间距（默认 4）
+  "style/layout/hilite_padding": 3          # 选中高亮块的内边距（默认 2）
 
   # ── 字体：Source Han Sans VF（思源黑体 Default 区 ≈ 日式字形）──
   "style/font_face": "Source Han Sans VF"

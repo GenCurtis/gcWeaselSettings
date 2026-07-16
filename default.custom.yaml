@@ -14,3 +14,8 @@ patch:
 
   # 每页候选数：9（用 1–9 选择，避免 0 选第 10 个的 bug）
   "menu/page_size": 9
+
+  # 左 Shift：编码直接以西文上屏并切到西文模式（commit_code）
+  # 系统默认 inline_ascii 是“临时内嵌西文”——编码留在候选区、需再按 Enter 才上屏，
+  # 与“打字即落框”的习惯不符。改为 commit_code：按左 Shift → 编码字母立刻以西文落框 + 切西文。
+  "ascii_composer/switch_key/Shift_L": commit_code

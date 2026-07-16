@@ -148,13 +148,13 @@ Start-Sleep -Milliseconds 500
 Ensure-Server $server
 Start-Sleep -Seconds 2
 $final = Build-ColorScheme
-Ok "部署完成：color_scheme = $final；font = Source Han Sans VF；page_size = 9；schema = luna_pinyin"
-if ($final -ne 'mocha') { Warn2 'color_scheme 非 mocha：请右键托盘 Weasel -> 重新部署，或重跑本脚本。' }
+Ok "部署完成：color_scheme = $final (亮) / mocha (暗)；横排；font = Source Han Sans VF；page_size = 9；schema = luna_pinyin；左 Shift = commit_code"
+if (-not $final) { Warn2 '未读到 color_scheme（部署可能未完成）：请右键托盘 Weasel -> 重新部署，或重跑本脚本。' }
 
 # ========== 收尾 ==========
 Write-Host ""
 Write-Host "====== 完成 ======" -ForegroundColor Green
-Write-Host "打几个字验证：应见 Catppuccin Mocha 配色 + 思源黑体 + 每页 9 候选；方案仅朙月拼音。" -ForegroundColor White
+Write-Host "打几个字验证：Catppuccin 双配色（系统亮→Latte / 暗→Mocha）+ 思源黑体 + 横排候选 + 每页 9 候选；左 Shift 编码以西文直接上屏。" -ForegroundColor White
 Write-Host "若语言栏里没出现 Rime，注销/重登一次（或去语言设置添加）即可。" -ForegroundColor White
 
 } catch {
