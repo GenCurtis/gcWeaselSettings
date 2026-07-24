@@ -125,7 +125,8 @@ Step '应用配置'
 New-Item -ItemType Directory -Force -Path $Rime | Out-Null
 Copy-Item (Join-Path $Root 'weasel.custom.yaml')  (Join-Path $Rime 'weasel.custom.yaml')  -Force
 Copy-Item (Join-Path $Root 'default.custom.yaml') (Join-Path $Rime 'default.custom.yaml') -Force
-Ok '配置已拷贝（含 schema_list 仅 luna_pinyin）'
+Copy-Item (Join-Path $Root 'luna_pinyin.custom.yaml') (Join-Path $Rime 'luna_pinyin.custom.yaml') -Force
+Ok '配置已拷贝（外观 + 全局 + luna_pinyin 方案覆写）'
 
 # ========== 4. 部署（静默）==========
 Step '部署（静默 /deploy）'

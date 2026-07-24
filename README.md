@@ -14,6 +14,7 @@
 - **候选数**：每页 `9` 个（`1`–`9` 选择）
 - **方案**：`luna_pinyin`（朙月拼音，繁体输出）
 - **中英切换**：左 Shift = `commit_code`（编码以西文直接上屏 + 切西文）；Shift_R/Caps_Lock 沿用默认
+- **标点**：数字后 `.` `,` `:` 直接上屏中文标点（关闭 librime 的「数字分隔符」智能识别，否则 `255。` 要按两次）
 
 ## 文件
 
@@ -24,6 +25,7 @@
 | `fonts/SourceHanSans-VF.otf` | 内置思源黑体（~30MB；免去下载 888MB 全量包） |
 | `weasel.custom.yaml` | 外观配置（配色 / 排版 / 字体 / 字号） |
 | `default.custom.yaml` | 全局配置（方案 / 候选数 / 中英切换键） |
+| `luna_pinyin.custom.yaml` | luna_pinyin 方案覆写（关闭数字分隔符识别） |
 
 ## 一键配置（裸机 → 就绪）
 
@@ -31,8 +33,8 @@
 
 1. **装 Weasel**（若未装）：从 GitHub 拉最新版安装包，NSIS 静默安装 `/S`；失败则回退到 GUI。
 2. **装思源黑体**（若未装）：拷 `fonts/SourceHanSans-VF.otf` 到 `%LOCALAPPDATA%\Microsoft\Windows\Fonts\` + 注册表 + 广播字体变更。
-3. **应用配置**：拷两个 `*.custom.yaml` 到 `%APPDATA%\Rime\`。
-4. **部署（静默）**：停 WeaselServer → `WeaselDeployer.exe /deploy`（headless 写 build、不弹窗）→ 重启 server。一次性应用全部配置（双配色/横排/布局/字体/字号/候选数/方案/切换键）。
+3. **应用配置**：拷三个 `*.custom.yaml` 到 `%APPDATA%\Rime\`。
+4. **部署（静默）**：停 WeaselServer → `WeaselDeployer.exe /deploy`（headless 写 build、不弹窗）→ 重启 server。一次性应用全部配置（双配色/横排/布局/字体/字号/候选数/方案/切换键/数字分隔符）。
 
 幂等：已装的跳过，重复运行安全。
 
@@ -49,15 +51,18 @@ setup.bat
 ```bat
 copy %APPDATA%\Rime\weasel.custom.yaml  weasel.custom.yaml
 copy %APPDATA%\Rime\default.custom.yaml default.custom.yaml
+copy %APPDATA%\Rime\luna_pinyin.custom.yaml luna_pinyin.custom.yaml
 git add -A && git commit -m "update settings" && git push
 ```
 > 建议以仓库版（带注释）为基准编辑，再 `setup.bat` 应用，避免 live 标准化版本污染仓库。
 
 ## ⚠️ 三个坑（改设置必读）
 
-1. **配色字节序是 BGR**（`0xBBGGRR`），不是 CSS 的 `#RRGGBB`，要把 R/B 两字节对调。例：Mauve `#CBA6F7` → `0xF7A6CB`。
+1. **配色字节序是 BGR**（`0xBBGGRR`），不是 CSS 的 `#RRGGBB`，要把 R/B 两字节对调。例：Mocha Mauve `#CBA6F7` → `0xF7A6CB`；Latte Mauve `#8839EF` → `0xEF3988`。
 2. **裸跑 `WeaselDeployer.exe`（无参）不部署**，只弹维护 GUI；必须用 `WeaselDeployer.exe /deploy`（源码：无参→维护窗，`/deploy`→`UpdateWorkspace` 真部署）。
 3. **静默部署（不弹窗）**：`/deploy` 时若 WeaselServer 在跑，server 进 maintenance 模式会弹窗。要完全静默：**停 server → `/deploy`（headless 写 build）→ 重启 server**（`setup.ps1` 内置此流程）。`/deploy` 一次性应用全部配置，无回退、无需删 build。
+
+> 还有一个方案级的坑（数字后 `.` `,` `:` 进候选，librime 数字分隔符机制）见主项目 `notes/Weasel设置清单.md` 坑 4；解法已内建在 `luna_pinyin.custom.yaml`（`punctuator/digit_separators: ""`）。
 
 > 勘误（2026-07-16）：早期版本以为有"color_scheme 被 server 打回"和"需删 build 仪式"，**均为误诊**——根因是当时裸跑 deployer 只弹维护 GUI、没真部署。真相见上。
 
