@@ -9,39 +9,43 @@ customization:
   rime_version: 1.13.1
 
 patch:
-  # ── 配色：Catppuccin Mocha（暗色；颜色为 BGR 字节序 0xBBGGRR，见 README 坑 1）──
+  # ── 配色：Catppuccin Mocha（暗色）──
+  # color_format: rgba → 颜色按 CSS 顺序 0xRRGGBB 书写（8 位末两位为 alpha）。
+  # 不再做 BGR(0xBBGGRR) 换算，直接抄 Catppuccin 官方色值。
   "preset_color_schemes/mocha":
     name: "摩卡／Catppuccin Mocha"
     author: GenCurtis
-    back_color: 0x2E1E1E                          # Base      #1E1E2E  候选窗背景
-    border_color: 0x5A4745                        # Surface1  #45475A  边框
-    shadow_color: 0x00000000                      #                     无阴影
-    text_color: 0xF4D6CD                          # Text      #CDD6F4  编码文字
-    hilited_text_color: 0xFAB489                  # Blue      #89B4FA  编码高亮文字
-    hilited_back_color: 0x443231                  # Surface0  #313244  编码高亮底
-    candidate_text_color: 0xDEC2BA                # Subtext1  #BAC2DE  候选文字
-    candidate_back_color: 0x2E1E1E                # Base      #1E1E2E  候选底
-    hilited_candidate_text_color: 0x2E1E1E        # Base      #1E1E2E  选中候选文字
-    hilited_candidate_back_color: 0xF7A6CB        # Mauve     #CBA6F7  选中候选底（accent）
-    comment_text_color: 0x9C847F                  # Overlay1  #7F849C  注释文字
-    hilited_comment_text_color: 0xB29993          # Overlay2  #9399B2  选中行注释
+    color_format: rgba
+    back_color: 0x1E1E2E                          # Base      候选窗背景
+    border_color: 0x45475A                        # Surface1  边框
+    shadow_color: 0x00000000                      #           无阴影（全透明）
+    text_color: 0xCDD6F4                          # Text      编码文字
+    hilited_text_color: 0x89B4FA                  # Blue      编码高亮文字
+    hilited_back_color: 0x313244                  # Surface0  编码高亮底
+    candidate_text_color: 0xBAC2DE                # Subtext1  候选文字
+    candidate_back_color: 0x1E1E2E                # Base      候选底
+    hilited_candidate_text_color: 0x1E1E2E        # Base      选中候选文字
+    hilited_candidate_back_color: 0xCBA6F7        # Mauve     选中候选底（accent）
+    comment_text_color: 0x7F849C                  # Overlay1  注释文字
+    hilited_comment_text_color: 0x9399B2          # Overlay2  选中行注释
 
-  # ── 配色：Catppuccin Latte（亮色；BGR 字节序，R/B 对调）──
+  # ── 配色：Catppuccin Latte（亮色）──
   "preset_color_schemes/latte":
     name: "拿铁／Catppuccin Latte"
     author: GenCurtis
-    back_color: 0xF5F1EF                          # Base      #EFF1F5  候选窗背景
-    border_color: 0xCCC0BC                        # Surface1  #BCC0CC  边框
-    shadow_color: 0x00000000                      #                     无阴影
-    text_color: 0x694F4C                          # Text      #4C4F69  编码文字
-    hilited_text_color: 0xF5661E                  # Blue      #1E66F5  编码高亮文字
-    hilited_back_color: 0xDAD0CC                  # Surface0  #CCD0DA  编码高亮底
-    candidate_text_color: 0x775F5C                # Subtext1  #5C5F77  候选文字
-    candidate_back_color: 0xF5F1EF                # Base      #EFF1F5  候选底
-    hilited_candidate_text_color: 0xF5F1EF        # Base      #EFF1F5  选中候选文字（底为深 Mauve，字反色用亮 Base）
-    hilited_candidate_back_color: 0xEF3988        # Mauve     #8839EF  选中候选底（accent）
-    comment_text_color: 0xA18F8C                  # Overlay1  #8C8FA1  注释文字
-    hilited_comment_text_color: 0x937F7C          # Overlay2  #7C7F93  选中行注释
+    color_format: rgba
+    back_color: 0xEFF1F5                          # Base      候选窗背景
+    border_color: 0xBCC0CC                        # Surface1  边框
+    shadow_color: 0x00000000                      #           无阴影
+    text_color: 0x4C4F69                          # Text      编码文字
+    hilited_text_color: 0x1E66F5                  # Blue      编码高亮文字
+    hilited_back_color: 0xCCD0DA                  # Surface0  编码高亮底
+    candidate_text_color: 0x5C5F77                # Subtext1  候选文字
+    candidate_back_color: 0xEFF1F5                # Base      候选底
+    hilited_candidate_text_color: 0xEFF1F5        # Base      选中候选文字（底为深 Mauve，字反色用亮 Base）
+    hilited_candidate_back_color: 0x8839EF        # Mauve     选中候选底（accent）
+    comment_text_color: 0x8C8FA1                  # Overlay1  注释文字
+    hilited_comment_text_color: 0x7C7F93          # Overlay2  选中行注释
 
   # ── 配色切换：系统亮色模式→Latte、暗色模式→Mocha ──
   "style/color_scheme": latte
@@ -64,3 +68,16 @@ patch:
   "style/font_point": 12            # 候选词 + 编码行（拼音）
   "style/label_font_point": 11      # 序号 1. 2. …
   "style/comment_font_point": 11    # 注释（反查 / 形码方案才显示，平时拼音无注释）
+
+  # ── 应用选项：指定程序里改初始状态（按需增删进程名）──
+  # Weasel 15.0+ 进程名大小写不敏感；每个 app 可设 ascii_mode / inline_preedit / vim_mode。
+  # 现默认：终端类默认英文、Firefox 内嵌编码；编辑器按需取消注释。
+  app_options:
+    cmd.exe:               { ascii_mode: true }    # 终端默认英文
+    conhost.exe:           { ascii_mode: true }
+    powershell.exe:        { ascii_mode: true }
+    pwsh.exe:              { ascii_mode: true }
+    WindowsTerminal.exe:   { ascii_mode: true }
+    firefox.exe:           { inline_preedit: true } # Firefox 编码内嵌（weasel.yaml 默认即如此，显式保留）
+    # code.exe:            { ascii_mode: true }     # VS Code 默认英文（频繁输中文则别开）
+    # nvim-qt.exe:         { ascii_mode: true, vim_mode: true }  # Vim：Esc/Ctrl-[ 自动切英文

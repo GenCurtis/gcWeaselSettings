@@ -128,6 +128,29 @@ Copy-Item (Join-Path $Root 'default.custom.yaml') (Join-Path $Rime 'default.cust
 Copy-Item (Join-Path $Root 'luna_pinyin.custom.yaml') (Join-Path $Rime 'luna_pinyin.custom.yaml') -Force
 Ok '配置已拷贝（外观 + 全局 + luna_pinyin 方案覆写）'
 
+# ========== 3.5 Octagram 語言模型（八股文，可選）==========
+# 提升整句/長句的候選排序準確度。luna_pinyin schema 已內建 __patch: grammar:/hant?
+# （? = 數據在才啟用），故只需把數據放入用戶目錄、重新部署即自動激活。
+# hant=繁（匹配 luna_pinyin 繁體詞典；簡出也由 hant 在 simplifier 之前排序繁候選，故繁/簡輸出都用 hant）。
+# 不入倉庫（共約 99MB）——這裡按需下載，冪等：已有就跳過。失敗不阻塞（語言模型為可選）。
+Step 'Octagram 語言模型（八股文，可選）'
+$octaBranched = @{
+    'zh-hant-t-essay-bgw.gram' = 'hant'; 'zh-hant-t-essay-bgc.gram' = 'hant'
+    'zh-hans-t-essay-bgw.gram' = 'hans'; 'zh-hans-t-essay-bgc.gram' = 'hans'
+}
+$octaBase = 'https://raw.githubusercontent.com/lotem/rime-octagram-data'
+$todo = @('grammar.yaml') + @($octaBranched.Keys) | Where-Object { -not (Test-Path (Join-Path $Rime $_)) }
+if ($todo.Count -eq 0) {
+    Ok '已齊全（grammar.yaml + hant/hans 模型）'
+} else {
+    Write-Host "    缺 $($todo.Count) 個檔，下載中（共約 99MB，首次較慢）…"
+    foreach ($f in $todo) {
+        $url = if ($f -eq 'grammar.yaml') { "$octaBase/master/grammar.yaml" } else { "$octaBase/$($octaBranched[$f])/$f" }
+        try { Invoke-WebRequest $url -OutFile (Join-Path $Rime $f) -UseBasicParsing; Ok "下載 $f" }
+        catch { Warn2 "下載失敗 $f（語言模型為可選，不影響基本輸入，可稍後重跑本腳本）" }
+    }
+}
+
 # ========== 4. 部署（静默）==========
 Step '部署（静默 /deploy）'
 # 关键两条：

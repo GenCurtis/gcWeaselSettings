@@ -1,5 +1,12 @@
 # gcWeaselSettings — luna_pinyin 方案覆写
-# 关闭 librime 的「数字分隔符」智能识别（见 README / 设置清单）
+# 仅关闭数字分隔符识别（见 README / 设置清单）。
+#
+# 模糊音（zh↔z / n↔l / en↔eng）经实测利大于弊，已停用：
+#   librime 候选排序按 dict weight（词频）+ octagram 重排，fuzz 的 -log(0.5) 软降权压不过高频模糊词
+#   （如打 ziqian，高频的「之前/值钱」zhi+qian 仍盖过精确音「自谦」zi+qian）。
+#   且无配置开关让"精确音硬优先"。用户本无平翘/鼻边不分的需求 —— 故 revert 回 base schema 默认。
+# base luna_pinyin.schema.yaml 自带：简拼(abbreviation) + 合法等价拼写(spelling_correction, nve=nue 等)
+#   + 按键纠错(key_correction, dagn→dang 等)，这些【不是】交叉音模糊音，保留。
 
 customization:
   distribution_code_name: Weasel
@@ -10,8 +17,7 @@ customization:
 
 patch:
   # 关闭数字分隔符识别
-  # 默认 librime 把数字后的 . , : 当成小数点 / 千位逗号 / 时间冒号，
-  # 走 Forward（进候选让你确认），导致 "255。" 要按两次才出。
-  # 清空 digit_separators 后，数字后这些标点走普通 AutoCommitPunct，直接上屏中文标点。
-  # 代价：失去 "3.14" 式小数点识别（数字后 . 一律变中文句号）；要打纯小数切西文。
+  # 默认 librime 把数字后的 . , : 当小数点/千位逗号/时间冒号，走 Forward 进候选确认，
+  # 导致 "255。" 要按两次。清空后数字后这些标点走普通 AutoCommitPunct 直接上屏。
+  # 代价：失去 "3.14" 式小数点识别（数字后 . 一律中文句号）；要纯小数切西文。
   "punctuator/digit_separators": ""
